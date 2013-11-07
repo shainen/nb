@@ -7,7 +7,7 @@ dt = tmax/Nt;
 
 t=[0:dt:tmax-dt];
 
-S = 3;
+S = 7;
 U = 1;
 mu = 1;
 J = 0.01;
