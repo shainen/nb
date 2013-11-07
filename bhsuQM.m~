@@ -1,6 +1,6 @@
 function bhsuQM
 
-tmax=200;
+tmax=20;
 
 Nt = 200;
 dt = tmax/Nt;
@@ -16,7 +16,6 @@ Jx=[0,1,0;1,0,1;0,1,0]/sqrt(2);
 Jy=i*[0,-1,0;1,0,-1;0,1,0]/sqrt(2);
 Jz=[1,0,0;0,0,0;0,0,-1];
 
-
 JxS=cell(1,S);
 JyS=cell(1,S);
 JzS=cell(1,S);
@@ -26,9 +25,6 @@ for j=1:S,
     JzS{j}=sparse(kron(kron(eye(3^(j-1)),Jz),eye(3^(S-j))));
 end
 
-'make ham'
-time=cputime;
-
 HQM=sparse(3^S,3^S);
 for j=1:S
     HQM=HQM+JzS{j}*JzS{j}-JzS{j};
@@ -36,14 +32,10 @@ for j=1:S
         HQM=HQM-J*(JxS{j}*JxS{k}+JyS{j}*JyS{k});
     end
 end
-cputime-time
 
 HQMf=full(HQM);
 
-'diag'
-time=cputime;
 [Vn,Em]=eig(HQMf);
-cputime-time
 
 En=diag(Em);
 
@@ -59,16 +51,15 @@ AvgSz1=zeros(Nt,1);
 AvgSz2=zeros(Nt,1);
 AvgSz3=zeros(Nt,1);
 
-'plot'
-time=cputime
 for j=1:Nt
-    vec=exp(-i*t(j)*En).*cn;
-    AvgSz1(j)=vec'*(m1*vec);
-    AvgSz2(j)=vec'*(m2*vec);
-    AvgSz3(j)=vec'*(m3*vec);
+    vec1=exp(-i*t(j)*En).*cn;
+    vec2=exp(-i*t(j)*En).*cn;
+    vec1=exp(-i*t(j)*En).*cn;
+    AvgSz1(j)=vec1'*(m1*vec1);
+    AvgSz2(j)=(cn'.*exp(i*t(j)*En'))*(m2*(exp(-i*t(j)*En).*cn));
+    AvgSz3(j)=(cn'.*exp(i*t(j)*En'))*(m3*(exp(-i*t(j)*En).*cn));
 end
-cputime-time
-
+[x,y]=eig(Jz)
 %plot the results
 figure
 hold on
