@@ -108,6 +108,8 @@ eqns\[Nu]:=Flatten[Table[eqns\[Nu]1/.Flatten[Table[{\[Nu][1,n]'[t]->\[Nu][m,n]'[
 
 MatrixForm[eqns\[Nu]];
 
+
+
 (* ::Section:: *)
 (*SU3 Wigner with neg prob*)
 
@@ -161,8 +163,8 @@ su3Runsdone=su3Runsdone+1;
 ,{j,0,(su3Runs/mSIM-1)}
 ]
 ]
-avgspins=Norm1^Sites Re[spindyn]/su3Runs;
+avgspins3=Norm1^Sites Re[spindyn]/su3Runs;
 
 
-Save[su3outfile,avgspins]
+Save[su3outfile,avgspins3]
 
