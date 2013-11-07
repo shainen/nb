@@ -108,16 +108,6 @@ eqns\[Nu]:=Flatten[Table[eqns\[Nu]1/.Flatten[Table[{\[Nu][1,n]'[t]->\[Nu][m,n]'[
 
 MatrixForm[eqns\[Nu]];
 
-
-eqns\[Nu][[3]]
-
-
-eqns\[Nu][[27]]
-
-
-eqns\[Nu][[43]]
-
-
 (* ::Section:: *)
 (*SU3 Wigner with neg prob*)
 
@@ -176,11 +166,3 @@ avgspins=Norm1^Sites Re[spindyn]/su3Runs;
 
 Save[su3outfile,avgspins]
 
-
-sx1data=ListPlot[{{times,2 avgspins[[All,4,3]]}\[Transpose],{times,2avgspins[[All,1,3]]}\[Transpose]},Joined->True,PlotRange->All]
-
-
-sx1data=ListPlot[{{times,2avgspins[[All,2,3]]}\[Transpose],{times,2avgspins[[All,5,3]]}\[Transpose]},Joined->True,PlotRange->All, PlotStyle->Green]
-
-
-sx1data=ListPlot[{{times,2avgspins[[All,3,3]]}\[Transpose],{times,2avgspins[[All,6,3]]}\[Transpose]},Joined->True,PlotRange->All]
