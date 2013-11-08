@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    111626,       2625]
-NotebookOptionsPosition[    109785,       2565]
-NotebookOutlinePosition[    110122,       2580]
-CellTagsIndexPosition[    110079,       2577]
+NotebookDataLength[    111308,       2618]
+NotebookOptionsPosition[    109353,       2554]
+NotebookOutlinePosition[    109690,       2569]
+CellTagsIndexPosition[    109647,       2566]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1646,105 +1646,82 @@ Cell[BoxData[{
    RowBox[{
     RowBox[{
      RowBox[{"TWAres", "=", 
-      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+      RowBox[{
        RowBox[{
+        RowBox[{"Product", "[", 
+         RowBox[{
+          RowBox[{"metric", "[", 
+           RowBox[{"[", 
+            RowBox[{"n", ",", "j"}], "]"}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"n", ",", "1", ",", "Sites"}], "}"}]}], "]"}], 
+        RowBox[{"{", 
+         RowBox[{"v\[Nu]", ",", "v\[Nu]s"}], "}"}]}], "/.", 
+       RowBox[{"NDSolve", "[", 
         RowBox[{
          RowBox[{
-          RowBox[{"Product", "[", 
-           RowBox[{
-            RowBox[{"metric", "[", 
-             RowBox[{"[", 
-              RowBox[{"n", ",", 
-               RowBox[{
-                RowBox[{"mSIM", " ", "j"}], "+", "ii"}]}], "]"}], "]"}], ",", 
-            
-            RowBox[{"{", 
-             RowBox[{"n", ",", "1", ",", "Sites"}], "}"}]}], "]"}], 
-          RowBox[{"{", 
-           RowBox[{"v\[Nu]", ",", "v\[Nu]s"}], "}"}]}], "/.", 
-         RowBox[{"NDSolve", "[", 
+          RowBox[{"(", 
+           RowBox[{"eqns\[Nu]", "~", "Join", "~", "initials\[Nu]"}], ")"}], "/.", 
           RowBox[{
-           RowBox[{
-            RowBox[{"(", 
-             RowBox[{"eqns\[Nu]", "~", "Join", "~", "initials\[Nu]"}], ")"}], 
-            "/.", 
-            RowBox[{
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"U", "\[Rule]", "Uvalue"}], ",", 
-               RowBox[{"\[Mu]", "\[Rule]", "\[Mu]value"}], ",", 
-               RowBox[{"J", "\[Rule]", "Jvalue"}], ",", 
-               RowBox[{"navg", "\[Rule]", "navgvalue"}]}], "}"}], "~", "Join",
-              "~", 
-             RowBox[{"Flatten", "[", 
-              RowBox[{"Table", "[", 
-               RowBox[{
-                RowBox[{
-                 RowBox[{
-                  SubscriptBox["\[Nu]", "0"], "[", 
-                  RowBox[{"m", ",", "n"}], "]"}], "\[Rule]", 
-                 RowBox[{"(", 
-                  RowBox[{
-                   RowBox[{"\[Nu]varsingreek", "[", 
-                    RowBox[{"[", "n", "]"}], "]"}], "/.", 
-                   RowBox[{"{", 
-                    RowBox[{
-                    RowBox[{"\[Alpha]", "\[Rule]", 
-                    RowBox[{"randinits", "[", 
-                    RowBox[{"[", 
-                    RowBox[{"m", ",", "1", ",", 
-                    RowBox[{
-                    RowBox[{"mSIM", " ", "j"}], "+", "ii"}]}], "]"}], "]"}]}],
-                     ",", 
-                    RowBox[{"\[Beta]", "\[Rule]", 
-                    RowBox[{"randinits", "[", 
-                    RowBox[{"[", 
-                    RowBox[{"m", ",", "2", ",", 
-                    RowBox[{
-                    RowBox[{"mSIM", " ", "j"}], "+", "ii"}]}], "]"}], "]"}]}],
-                     ",", 
-                    RowBox[{"\[Gamma]", "\[Rule]", 
-                    RowBox[{"randinits", "[", 
-                    RowBox[{"[", 
-                    RowBox[{"m", ",", "3", ",", 
-                    RowBox[{
-                    RowBox[{"mSIM", " ", "j"}], "+", "ii"}]}], "]"}], 
-                    "]"}]}]}], "}"}]}], ")"}]}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"m", ",", "1", ",", "Sites"}], "}"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"n", ",", "1", ",", "8"}], "}"}]}], "]"}], "]"}]}]}],
-            ",", 
-           RowBox[{"Flatten", "[", "v\[Nu]", "]"}], ",", 
            RowBox[{"{", 
-            RowBox[{"t", ",", "0", ",", "tmax"}], "}"}], ",", 
-           RowBox[{"MaxSteps", "\[Rule]", "\[Infinity]"}]}], 
-          "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
-        RowBox[{"{", 
-         RowBox[{"ii", ",", "mSIM"}], "}"}]}], "\[IndentingNewLine]", "]"}]}],
-      ";", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"U", "\[Rule]", "Uvalue"}], ",", 
+             RowBox[{"\[Mu]", "\[Rule]", "\[Mu]value"}], ",", 
+             RowBox[{"J", "\[Rule]", "Jvalue"}], ",", 
+             RowBox[{"navg", "\[Rule]", "navgvalue"}]}], "}"}], "~", "Join", 
+           "~", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Table", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                SubscriptBox["\[Nu]", "0"], "[", 
+                RowBox[{"m", ",", "n"}], "]"}], "\[Rule]", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"\[Nu]varsingreek", "[", 
+                  RowBox[{"[", "n", "]"}], "]"}], "/.", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"\[Alpha]", "\[Rule]", 
+                    RowBox[{"randinits", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "j"}], "]"}], "]"}]}], ",", 
+                   RowBox[{"\[Beta]", "\[Rule]", 
+                    RowBox[{"randinits", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "2", ",", "j"}], "]"}], "]"}]}], ",", 
+                   RowBox[{"\[Gamma]", "\[Rule]", 
+                    RowBox[{"randinits", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "3", ",", "j"}], "]"}], "]"}]}]}], 
+                  "}"}]}], ")"}]}], ",", 
+              RowBox[{"{", 
+               RowBox[{"m", ",", "1", ",", "Sites"}], "}"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"n", ",", "1", ",", "8"}], "}"}]}], "]"}], "]"}]}]}], 
+         ",", 
+         RowBox[{"Flatten", "[", "v\[Nu]", "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "0", ",", "tmax"}], "}"}], ",", 
+         RowBox[{"MaxSteps", "\[Rule]", "\[Infinity]"}]}], 
+        "\[IndentingNewLine]", "]"}]}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"spindyn", "=", 
       RowBox[{"spindyn", "+", 
-       RowBox[{"Total", "[", 
-        RowBox[{
-         RowBox[{"Table", "[", 
-          RowBox[{
-           RowBox[{"TWAres", "[", 
-            RowBox[{"[", 
-             RowBox[{"All", ",", "1", ",", "All"}], "]"}], "]"}], ",", 
-           RowBox[{"{", 
-            RowBox[{"t", ",", "ts"}], "}"}]}], "]"}], "\[Transpose]"}], 
-        "]"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"TWAres", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"t", ",", "ts"}], "}"}]}], "]"}], "\[Transpose]"}]}]}], 
+     ";", "\[IndentingNewLine]", 
      RowBox[{"su3Runsdone", "=", 
       RowBox[{"su3Runsdone", "+", "1"}]}], ";"}], "\[IndentingNewLine]", ",", 
     
     RowBox[{"{", 
-     RowBox[{"j", ",", "0", ",", 
-      RowBox[{"(", 
-       RowBox[{
-        RowBox[{"su3Runs", "/", "mSIM"}], "-", "1"}], ")"}]}], "}"}]}], 
-   "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
-  "]"}], "\[IndentingNewLine]", 
+     RowBox[{"j", ",", "1", ",", "su3Runs"}], "}"}]}], "\[IndentingNewLine]", 
+   "]"}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"avgspins3", "=", 
    RowBox[{
@@ -1824,17 +1801,29 @@ Cell[BoxData[{
    3.59291824159303*^9}, 3.592919013624131*^9, {3.592919099889604*^9, 
    3.592919103608346*^9}, {3.592923240714628*^9, 3.5929232633116827`*^9}, {
    3.5929233608491898`*^9, 3.592923387352551*^9}, {3.59292550343947*^9, 
-   3.592925512356384*^9}}],
+   3.592925512356384*^9}, {3.592925759427949*^9, 3.592925833925271*^9}, {
+   3.59292587224309*^9, 3.592925885500341*^9}, {3.592925984372868*^9, 
+   3.592925985298227*^9}}],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"95.909419`", ",", "Null"}], "}"}]], "Output",
+Cell[BoxData["$Aborted"], "Output",
  CellChangeTimes->{3.592837301099685*^9, 3.592852044965259*^9, 
   3.5929180129449997`*^9, 3.592918236191864*^9, 3.592918267228541*^9, 
   3.592918621818768*^9, 3.592918889171089*^9, 3.5929189605281553`*^9, 
   3.5929189923571663`*^9, 3.592919049927643*^9, 3.592919141187138*^9, 
   3.592923352618194*^9, 3.59292376042892*^9, 3.592925334709537*^9, 
-  3.59292549281003*^9}]
+  3.59292549281003*^9, 3.5929256891483*^9, 3.592925894038305*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dimensions", "[", "TWAres", "]"}]], "Input",
+ CellChangeTimes->{{3.592925904041746*^9, 3.592925913280269*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"10", ",", "1", ",", "2", ",", "3", ",", "8"}], "}"}]], "Output",
+ CellChangeTimes->{3.592925924655014*^9}]
 }, Open  ]],
 
 Cell[BoxData[
@@ -2564,7 +2553,7 @@ z/4TI4e5gQ==\
 }, Open  ]]
 },
 WindowSize->{854, 747},
-WindowMargins->{{Automatic, 258}, {Automatic, 28}},
+WindowMargins->{{Automatic, 194}, {Automatic, 28}},
 FrontEndVersion->"8.0 for Linux x86 (32-bit) (October 10, 2011)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2612,18 +2601,22 @@ Cell[53668, 1502, 747, 19, 69, "Input"],
 Cell[54418, 1523, 1870, 57, 77, "Input"],
 Cell[56291, 1582, 1729, 46, 88, "Input"],
 Cell[CellGroupData[{
-Cell[58045, 1632, 9441, 194, 454, "Input"],
-Cell[67489, 1828, 454, 8, 30, "Output"]
+Cell[58045, 1632, 8697, 173, 416, "Input"],
+Cell[66745, 1807, 446, 6, 30, "Output"]
 }, Open  ]],
-Cell[67958, 1839, 388, 7, 30, "Input"],
 Cell[CellGroupData[{
-Cell[68371, 1850, 1564, 30, 50, "Input"],
-Cell[69938, 1882, 18291, 306, 223, 6207, 109, "CachedBoxData", "BoxData", \
+Cell[67228, 1818, 134, 2, 30, "Input"],
+Cell[67365, 1822, 146, 3, 30, "Output"]
+}, Open  ]],
+Cell[67526, 1828, 388, 7, 30, "Input"],
+Cell[CellGroupData[{
+Cell[67939, 1839, 1564, 30, 50, "Input"],
+Cell[69506, 1871, 18291, 306, 223, 6207, 109, "CachedBoxData", "BoxData", \
 "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[88266, 2193, 1563, 30, 50, "Input"],
-Cell[89832, 2225, 19925, 336, 223, 6162, 108, "CachedBoxData", "BoxData", \
+Cell[87834, 2182, 1563, 30, 50, "Input"],
+Cell[89400, 2214, 19925, 336, 223, 6162, 108, "CachedBoxData", "BoxData", \
 "Output"]
 }, Open  ]]
 }, Open  ]]
