@@ -1,5 +1,24 @@
 (* ::Package:: *)
 
+(* ::Section:: *)
+(*Kernels*)
+
+
+Needs["SubKernels`RemoteKernels`"]
+
+
+LaunchKernels[RemoteMachine["node01",8]]
+
+
+LaunchKernels[RemoteMachine["node02",8]]
+
+
+LaunchKernels[RemoteMachine["node03",8]]
+
+
+LaunchKernels[RemoteMachine["node04",8]]
+
+
 (* ::Section::Closed:: *)
 (*Init*)
 
@@ -64,7 +83,7 @@ d[7,7,8]=d[7,8,7]=d[8,7,7]=-(1/(2Sqrt[3]));
 Get["constants.m"]
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Dynamic Equations*)
 
 
@@ -149,7 +168,7 @@ Timing[
 ParallelDo[
 TWAres=Product[metric[[n,j]],{n,1,Sites}]{v\[Nu],v\[Nu]s}/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]],\[Gamma]->randinits[[m,3,j]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
 ];
-spindyn=spindyn+Table[TWAres,{t,ts}];
+spindyn+=Table[TWAres,{t,ts}];
 ,{j,1,su3Runs}
 ]
 ]
@@ -157,4 +176,4 @@ avgspins3=Norm1^Sites Re[spindyn[[All,1]]]/su3Runs;
 avgspins3[[All,2]]=avgspins3[[All,2]]-1/8-avgspins3[[All,1]]^2;
 
 
-Save[su3outfile<>"c",avgspins3]
+Save[su3outfile<>"a",avgspins3]
