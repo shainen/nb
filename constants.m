@@ -12,7 +12,7 @@ times=Table[t,{t,0,tmax-dt,dt}];
 su2Runs=10000;
 su3Runs=10000;
 
-mSIM=20;
+mSIM=10;
 
 Uvalue=1;
 \[Mu]value=1;
