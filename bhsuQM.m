@@ -7,7 +7,7 @@ dt = tmax/Nt;
 
 t=[0:dt:tmax-dt];
 
-S = 7;
+S = 3;
 U = 1;
 mu = 1;
 J = 0.01;
@@ -48,7 +48,7 @@ cputime-time
 En=diag(Em);
 
 init=zeros(3^S,1);
-init(16,1)=1;
+init(8,1)=1;
 
 cn=Vn'*init;
 m1=Vn'*(JzS{1}*Vn);
