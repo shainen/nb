@@ -2,7 +2,7 @@ function bhsuQM
 
 tmax=200;
 
-Nt = 200;
+Nt = 128;
 dt = tmax/Nt;
 
 t=[0:dt:tmax-dt];

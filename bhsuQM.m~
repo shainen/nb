@@ -1,8 +1,8 @@
 function bhsuQM
 
-tmax=20;
+tmax=200;
 
-Nt = 200;
+Nt = 128;
 dt = tmax/Nt;
 
 t=[0:dt:tmax-dt];
@@ -16,6 +16,7 @@ Jx=[0,1,0;1,0,1;0,1,0]/sqrt(2);
 Jy=i*[0,-1,0;1,0,-1;0,1,0]/sqrt(2);
 Jz=[1,0,0;0,0,0;0,0,-1];
 
+
 JxS=cell(1,S);
 JyS=cell(1,S);
 JzS=cell(1,S);
@@ -25,6 +26,9 @@ for j=1:S,
     JzS{j}=sparse(kron(kron(eye(3^(j-1)),Jz),eye(3^(S-j))));
 end
 
+'make ham'
+time=cputime;
+
 HQM=sparse(3^S,3^S);
 for j=1:S
     HQM=HQM+JzS{j}*JzS{j}-JzS{j};
@@ -32,34 +36,52 @@ for j=1:S
         HQM=HQM-J*(JxS{j}*JxS{k}+JyS{j}*JyS{k});
     end
 end
+cputime-time
 
 HQMf=full(HQM);
 
+'diag'
+time=cputime;
 [Vn,Em]=eig(HQMf);
+cputime-time
 
 En=diag(Em);
 
 init=zeros(3^S,1);
-init(16,1)=1;
+init(8,1)=1;
 
 cn=Vn'*init;
 m1=Vn'*(JzS{1}*Vn);
 m2=Vn'*(JzS{2}*Vn);
 m3=Vn'*(JzS{3}*Vn);
 
-AvgSz1=zeros(Nt,1);
-AvgSz2=zeros(Nt,1);
-AvgSz3=zeros(Nt,1);
+m4=Vn'*(JzS{1}*(JzS{1}*Vn));
+m5=Vn'*(JzS{2}*(JzS{2}*Vn));
+m6=Vn'*(JzS{3}*(JzS{3}*Vn));
 
+
+'plot'
+time=cputime
 for j=1:Nt
-    vec1=exp(-i*t(j)*En).*cn;
-    vec2=exp(-i*t(j)*En).*cn;
-    vec1=exp(-i*t(j)*En).*cn;
-    AvgSz1(j)=vec1'*(m1*vec1);
-    AvgSz2(j)=(cn'.*exp(i*t(j)*En'))*(m2*(exp(-i*t(j)*En).*cn));
-    AvgSz3(j)=(cn'.*exp(i*t(j)*En'))*(m3*(exp(-i*t(j)*En).*cn));
+    vec=exp(-i*t(j)*En).*cn;
+    AvgSz1(j)=vec'*(m1*vec);
+    AvgSz2(j)=vec'*(m2*vec);
+    AvgSz3(j)=vec'*(m3*vec);
+    SqSz1(j)=vec'*(m4*vec);
+    SqSz2(j)=vec'*(m5*vec);
+    SqSz3(j)=vec'*(m6*vec);
 end
-[x,y]=eig(Jz)
+cputime-time
+
+size(AvgSz1)
+size(SqSz1)
+
+widSz1=SqSz1-AvgSz1.*AvgSz1;
+widSz2=SqSz2-AvgSz2.*AvgSz2;
+widSz3=SqSz3-AvgSz3.*AvgSz3;
+
+
+
 %plot the results
 figure
 hold on
@@ -67,4 +89,10 @@ hold on
 plot(t,AvgSz1,'b');
 plot(t,AvgSz2,'r');
 plot(t,AvgSz3,'y');
+figure
+hold on
+%plot(t,X(:,1),'r');
+plot(t,widSz1,'b');
+plot(t,widSz2,'r');
+plot(t,widSz3,'y');
 %legend('n for p=0');
