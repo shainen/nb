@@ -1,7 +1,10 @@
 (* ::Package:: *)
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Constants*)
+
+
+(*SetDirectory["/Users/shainen/Dropbox/Research/bhsucon/nb/nb"];*)
 
 
 Get["constants.m"]
@@ -12,6 +15,7 @@ Get["constants.m"]
 
 
 vs=Table[Table[s[m,n][t],{n,1,3}],{m,1,Sites}];
+vss=Table[Table[s[m,n][t]s[m,n][t],{n,1,3}],{m,1,Sites}];
 ds=Table[Table[s[m,n]'[t],{n,1,3}],{m,1,Sites}];
 initialss:=Flatten[Table[Table[s[m,n][0]==Subscript[s, 0][m,n],{n,1,3}],{m,1,Sites}]];
 \[CapitalDelta]s[m_,ow_]:=Table[D[ow,s[m,n][t]],{n,1,3}];
@@ -88,21 +92,22 @@ ResNorm=Norm2^(updownmiddle[[1]]+updownmiddle[[2]]) Norm1^(2updownmiddle[[3]]);
 (*ProgressIndicator[Dynamic[j],{0,(su2Runs/mSIM-1)}]*)
 
 
-spindyn=Table[0,{Nt},{Sites},{3}];
+spindyn=Table[0,{Nt},{2},{Sites},{3}];
 su2Runsdone=0;
 Timing[
 Do[
 TWAres=ParallelTable[
-Product[metric1[[n,m,mSIM j+ii]],{n,1,2},{m,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}]Product[metric2[[m,mSIM j+ii]],{m,1,updownmiddle[[1]]+updownmiddle[[2]]}]vs/.NDSolve[(eqnss~Join~initialss)/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[s, 0][m,n]->(svarsingreek[[n]]/.{\[Alpha]->randinits[[m,1,mSIM j+ii]],\[Beta]->randinits[[m,2,mSIM j+ii]]}),{m,1,Sites},{n,1,3}]],Flatten[vs],{t,0,tmax},MaxSteps->\[Infinity]
+Product[metric1[[n,m,mSIM j+ii]],{n,1,2},{m,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}]Product[metric2[[m,mSIM j+ii]],{m,1,updownmiddle[[1]]+updownmiddle[[2]]}]{vs,vss}/.NDSolve[(eqnss~Join~initialss)/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[s, 0][m,n]->(svarsingreek[[n]]/.{\[Alpha]->randinits[[m,1,mSIM j+ii]],\[Beta]->randinits[[m,2,mSIM j+ii]]}),{m,1,Sites},{n,1,3}]],Flatten[vs],{t,0,tmax},MaxSteps->\[Infinity]
 ],
 {ii,mSIM}
 ];
-spindyn=spindyn+Total[Table[TWAres[[All,1,All]],{t,ts}]\[Transpose]];
+spindyn=spindyn+Total[Table[TWAres[[All,1,All,All,All]],{t,ts}]\[Transpose]];
 su2Runsdone=su2Runsdone+1;
 ,{j,0,(su2Runs/mSIM-1)}
 ]
 ]
 avgspins2=ResNorm Re[spindyn]/su2Runs;
+avgspins2[[All,2]]=avgspins2[[All,2]]-1/8-avgspins2[[All,1]]^2;
 
 
 Save[su2outfile,avgspins2]
