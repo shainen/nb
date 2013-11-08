@@ -55,9 +55,10 @@ m1=Vn'*(JzS{1}*Vn);
 m2=Vn'*(JzS{2}*Vn);
 m3=Vn'*(JzS{3}*Vn);
 
-AvgSz1=zeros(Nt,1);
-AvgSz2=zeros(Nt,1);
-AvgSz3=zeros(Nt,1);
+m4=Vn'*(JzS{1}*(JzS{1}*Vn));
+m5=Vn'*(JzS{2}*(JzS{2}*Vn));
+m6=Vn'*(JzS{3}*(JzS{3}*Vn));
+
 
 'plot'
 time=cputime
@@ -66,8 +67,18 @@ for j=1:Nt
     AvgSz1(j)=vec'*(m1*vec);
     AvgSz2(j)=vec'*(m2*vec);
     AvgSz3(j)=vec'*(m3*vec);
+    SqSz1(j)=vec'*(m4*vec);
+    SqSz2(j)=vec'*(m5*vec);
+    SqSz3(j)=vec'*(m6*vec);
 end
 cputime-time
+
+size(AvgSz1)
+size(SqSz1)
+
+widSz1=SqSz1-AvgSz1.*AvgSz1;
+widSz2=SqSz2-AvgSz2.*AvgSz2;
+widSz3=SqSz3-AvgSz3.*AvgSz3;
 
 %plot the results
 figure
@@ -76,4 +87,10 @@ hold on
 plot(t,AvgSz1,'b');
 plot(t,AvgSz2,'r');
 plot(t,AvgSz3,'y');
+figure
+hold on
+%plot(t,X(:,1),'r');
+plot(t,widSz1,'b');
+plot(t,widSz2,'r');
+plot(t,widSz3,'y');
 %legend('n for p=0');

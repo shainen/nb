@@ -10,8 +10,8 @@ Length[ts=N@Range[0,tmax-dt,dt]];
 times=Table[t,{t,0,tmax-dt,dt}];
 Runs=100;
 
-su2Runs=1000000;
-su3Runs=1000000;
+su2Runs=100000;
+su3Runs=100000;
 
 mSIM=100;
 
