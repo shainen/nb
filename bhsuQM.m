@@ -80,7 +80,13 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 widSz3=SqSz3-AvgSz3.*AvgSz3;
 
-save('data\QMoutput.txt','AvgSz1','-ascii');
+save('QMAvgSz','AvgSz1','AvgSz2','AvgSz3','-ascii');
+% save('QMAvgSz2','AvgSz2','-ascii');
+% save('QMAvgSz3','AvgSz3','-ascii');
+% 
+% save('QMWidSz1','WidSz1','-ascii');
+% save('QMWidSz2','WidSz2','-ascii');
+% save('QMWidSz3','WidSz3','-ascii');
 
 
 %plot the results
