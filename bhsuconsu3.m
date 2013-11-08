@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Init*)
 
 
@@ -69,6 +69,7 @@ Get["constants.m"]
 
 
 v\[Nu]=Table[Table[\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
+v\[Nu]s=Table[Table[\[Nu][m,n][t]\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
 d\[Nu]=Table[Table[\[Nu][m,n]'[t],{n,1,8}],{m,1,Sites}];
 initials\[Nu]:=Flatten[Table[Table[\[Nu][m,n][0]==Subscript[\[Nu], 0][m,n],{n,1,8}],{m,1,Sites}]];
 \[CapitalDelta]\[Nu][m_,ow_]:=Table[D[ow,\[Nu][m,n][t]],{n,1,8}];
@@ -106,8 +107,7 @@ eqns\[Nu]1={Derivative[1][\[Nu][1,1]][t]==\[Mu] \[Nu][1,2][t]+1/2 U \[Nu][1,7][t
 eqns\[Nu]:=Flatten[Table[eqns\[Nu]1/.Flatten[Table[{\[Nu][1,n]'[t]->\[Nu][m,n]'[t],\[Nu][1,n][t]->\[Nu][m,n][t],\[Nu][2,n][t]->(Sum[\[Nu][l,n][t],{l,1,m-1}]+Sum[\[Nu][l,n][t],{l,m+1,Sites}])},{n,1,8}]],{m,1,Sites}]];
 
 
-MatrixForm[eqns\[Nu]];
-
+(*MatrixForm[eqns\[Nu]]*)
 
 
 (* ::Section:: *)
@@ -123,7 +123,7 @@ Norm1=(4-Sqrt[E])/Sqrt[E];
 Fock1Mag=ProbabilityDistribution[4 a E^(-2 a^2) Abs[(4a^2-1)]/Norm1,{a,0,\[Infinity]}];
 
 
-randmag	=RandomVariate[Fock1Mag,{Sites,su3Runs}];
+randmag=RandomVariate[Fock1Mag,{Sites,su3Runs}];
 
 
 metric=1-2UnitStep[1/2-randmag];
@@ -143,18 +143,12 @@ randdoinit[n_]:={randrest[[1,n]],randrest[[2,n]],randmag[[n]] E^(I randphase[[n]
 randinits=Table[randupinit[n],{n,1,updownmiddle[[1]]}]~Join~Table[randdoinit[n],{n,updownmiddle[[1]]+1,updownmiddle[[1]]+updownmiddle[[2]]}]~Join~Table[randmiinit[n],{n,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}];
 
 
-(*ProgressIndicator[Dynamic[j],{0,(su3Runs/mSIM-1)}]*)
-
-
-(*Dynamic[j]*)
-
-
-spindyn=Table[0,{Nt},{Sites},{8}];
+spindyn=Table[0,{Nt},{2},{Sites},{8}];
 su3Runsdone=0;
 Timing[
 Do[
 TWAres=ParallelTable[
-Product[metric[[n,mSIM j+ii]],{n,1,Sites}]v\[Nu]/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,mSIM j+ii]],\[Beta]->randinits[[m,2,mSIM j+ii]],\[Gamma]->randinits[[m,3,mSIM j+ii]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
+Product[metric[[n,mSIM j+ii]],{n,1,Sites}]{v\[Nu],v\[Nu]s}/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,mSIM j+ii]],\[Beta]->randinits[[m,2,mSIM j+ii]],\[Gamma]->randinits[[m,3,mSIM j+ii]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
 ],
 {ii,mSIM}
 ];
@@ -164,7 +158,7 @@ su3Runsdone=su3Runsdone+1;
 ]
 ]
 avgspins3=Norm1^Sites Re[spindyn]/su3Runs;
+avgspins3[[All,2]]=avgspins3[[All,2]]-1/8-avgspins3[[All,1]]^2;
 
 
 Save[su3outfile,avgspins3]
-
