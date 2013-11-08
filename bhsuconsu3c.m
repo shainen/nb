@@ -3,6 +3,7 @@
 (* ::Section:: *)
 (*Kernels*)
 
+LaunchKernels[]
 
 Needs["SubKernels`RemoteKernels`"]
 
