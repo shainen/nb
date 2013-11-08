@@ -80,8 +80,8 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 widSz3=SqSz3-AvgSz3.*AvgSz3;
 
-save('QMAvgSz','AvgAvgSz1','AvgSz2','AvgSz3','-ascii');
-save('QMWidSz','WidSz1','WidSz2','WidSz3','-ascii');
+save('QMAvgSz','AvgSz1','AvgSz2','AvgSz3','-ascii');
+save('QMWidSz','widSz1','widSz2','widSz3','-ascii');
 
 
 
