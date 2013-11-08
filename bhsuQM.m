@@ -80,17 +80,20 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 widSz3=SqSz3-AvgSz3.*AvgSz3;
 
+save('data\QMoutput.txt','AvgSz1','-ascii');
+
+
 %plot the results
-figure
-hold on
-%plot(t,X(:,1),'r');
-plot(t,AvgSz1,'b');
-plot(t,AvgSz2,'r');
-plot(t,AvgSz3,'y');
-figure
-hold on
-%plot(t,X(:,1),'r');
-plot(t,widSz1,'b');
-plot(t,widSz2,'r');
-plot(t,widSz3,'y');
+% figure
+% hold on
+% %plot(t,X(:,1),'r');
+% plot(t,AvgSz1,'b');
+% plot(t,AvgSz2,'r');
+% plot(t,AvgSz3,'y');
+% figure
+% hold on
+% %plot(t,X(:,1),'r');
+% plot(t,widSz1,'b');
+% plot(t,widSz2,'r');
+% plot(t,widSz3,'y');
 %legend('n for p=0');

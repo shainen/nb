@@ -9,7 +9,7 @@ dt=tmax/Nt;
 Length[ts=N@Range[0,tmax-dt,dt]];
 times=Table[t,{t,0,tmax-dt,dt}];
 
-su2Runs=100;
+su2Runs=10000;
 su3Runs=10000;
 
 mSIM=20;

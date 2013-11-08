@@ -80,6 +80,7 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 widSz3=SqSz3-AvgSz3.*AvgSz3;
 
+fid=fopen('data\QMoutput.txt','wt');
 
 
 %plot the results
