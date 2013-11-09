@@ -1,5 +1,25 @@
 (* ::Package:: *)
 
+(* ::Section:: *)
+(*Kernels*)
+
+LaunchKernels[]
+
+Needs["SubKernels`RemoteKernels`"]
+
+
+LaunchKernels[RemoteMachine["server",7]]
+
+
+LaunchKernels[RemoteMachine["node02",8]]
+
+
+LaunchKernels[RemoteMachine["node03",8]]
+
+
+LaunchKernels[RemoteMachine["node04",8]]
+
+
 (* ::Section::Closed:: *)
 (*Init*)
 
@@ -57,7 +77,7 @@ d[6,6,8]=d[6,8,6]=d[8,6,6]=
 d[7,7,8]=d[7,8,7]=d[8,7,7]=-(1/(2Sqrt[3]));
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Constants*)
 
 
@@ -71,7 +91,7 @@ Get["constants.m"]
 v\[Nu]=Table[Table[\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
 v\[Nu]s=Table[Table[\[Nu][m,n][t]\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
 d\[Nu]=Table[Table[\[Nu][m,n]'[t],{n,1,8}],{m,1,Sites}];
-initials\[Nu]:=Flatten[Table[Table[\[Nu][m,n][0]==Subscript[\[Nu], 0][m,n],{n,1,8}],{m,1,Sites}]];
+initials\[Nu]=Flatten[Table[Table[\[Nu][m,n][0]==Subscript[\[Nu], 0][m,n],{n,1,8}],{m,1,Sites}]];
 \[CapitalDelta]\[Nu][m_,ow_]:=Table[D[ow,\[Nu][m,n][t]],{n,1,8}];
 
 
@@ -94,17 +114,17 @@ sz\[Nu]b[m_,ow_]:= 2\[Nu]wb[m,ow][[3]];
 szs\[Nu]b[m_,ow_]:=2(-1/Sqrt[3])\[Nu]wb[m,ow][[8]];
 
 
-(*H\[Nu][m_,ow_]:=U/2szs\[Nu][m,ow]-J navg (sx\[Nu][m,ow](Sum[sx\[Nu][n,1],{n,1,m-1}]+Sum[sx\[Nu][n,1],{n,m+1,Sites}])+sy\[Nu][m,ow](Sum[sy\[Nu][n,1],{n,1,m-1}]+Sum[sy\[Nu][n,1],{n,m+1,Sites}]))-\[Mu] sz\[Nu][m,ow];
-H\[Nu]b[m_,ow_]:=U/2szs\[Nu]b[m,ow]-J navg (sx\[Nu]b[m,ow](Sum[sx\[Nu]b[n,1],{n,1,m-1}]+Sum[sx\[Nu]b[n,1],{n,m+1,Sites}])+sy\[Nu]b[m,ow](Sum[sy\[Nu]b[n,1],{n,1,m-1}]+Sum[sy\[Nu]b[n,1],{n,m+1,Sites}]))-\[Mu] sz\[Nu]b[m,ow];*)
+(*H\[Nu][m_,ow_]:=U/2 szs\[Nu][m,ow]-J navg (sx\[Nu][m,ow](Sum[sx\[Nu][n,1],{n,1,m-1}]+Sum[sx\[Nu][n,1],{n,m+1,Sites}])+sy\[Nu][m,ow](Sum[sy\[Nu][n,1],{n,1,m-1}]+Sum[sy\[Nu][n,1],{n,m+1,Sites}]))-\[Mu] sz\[Nu][m,ow];
+H\[Nu]b[m_,ow_]:=U/2 szs\[Nu]b[m,ow]-J navg (sx\[Nu]b[m,ow](Sum[sx\[Nu]b[n,1],{n,1,m-1}]+Sum[sx\[Nu]b[n,1],{n,m+1,Sites}])+sy\[Nu]b[m,ow](Sum[sy\[Nu]b[n,1],{n,1,m-1}]+Sum[sy\[Nu]b[n,1],{n,m+1,Sites}]))-\[Mu] sz\[Nu]b[m,ow];*)
 
 
-(*eqns\[Nu]1=Table[d\[Nu][[1,n]]\[Equal]Simplify[\[ImaginaryI] (H\[Nu][1,v\[Nu][[1,n]]]-H\[Nu]b[1,v\[Nu][[1,n]]])],{n,1,8}]*)
+(*eqns\[Nu]1=Table[d\[Nu][[1,n]]==Simplify[I (H\[Nu][1,v\[Nu][[1,n]]]-H\[Nu]b[1,v\[Nu][[1,n]]])],{n,1,8}]*)
 
 
 eqns\[Nu]1={Derivative[1][\[Nu][1,1]][t]==\[Mu] \[Nu][1,2][t]+1/2 U \[Nu][1,7][t]-2 J navg \[Nu][1,3][t] \[Nu][2,2][t],Derivative[1][\[Nu][1,2]][t]==-\[Mu] \[Nu][1,1][t]-1/2 U \[Nu][1,6][t]+2 J navg \[Nu][1,3][t] \[Nu][2,1][t],Derivative[1][\[Nu][1,3]][t]==2 J navg (-\[Nu][1,2][t] \[Nu][2,1][t]+\[Nu][1,1][t] \[Nu][2,2][t]),Derivative[1][\[Nu][1,4]][t]==2 (\[Mu] \[Nu][1,5][t]+J navg (\[Nu][1,7][t] \[Nu][2,1][t]+\[Nu][1,6][t] \[Nu][2,2][t])),Derivative[1][\[Nu][1,5]][t]==-2 (\[Mu] \[Nu][1,4][t]+J navg (\[Nu][1,6][t] \[Nu][2,1][t]-\[Nu][1,7][t] \[Nu][2,2][t])),Derivative[1][\[Nu][1,6]][t]==1/2 U \[Nu][1,2][t]+\[Mu] \[Nu][1,7][t]+2 J navg (\[Nu][1,5][t] \[Nu][2,1][t]-(\[Nu][1,4][t]+Sqrt[3] \[Nu][1,8][t]) \[Nu][2,2][t]),Derivative[1][\[Nu][1,7]][t]==-(1/2) U \[Nu][1,1][t]-\[Mu] \[Nu][1,6][t]-2 J navg (\[Nu][1,4][t] \[Nu][2,1][t]-Sqrt[3] \[Nu][1,8][t] \[Nu][2,1][t]+\[Nu][1,5][t] \[Nu][2,2][t]),Derivative[1][\[Nu][1,8]][t]==-2 Sqrt[3] J navg (\[Nu][1,7][t] \[Nu][2,1][t]-\[Nu][1,6][t] \[Nu][2,2][t])};
 
 
-eqns\[Nu]:=Flatten[Table[eqns\[Nu]1/.Flatten[Table[{\[Nu][1,n]'[t]->\[Nu][m,n]'[t],\[Nu][1,n][t]->\[Nu][m,n][t],\[Nu][2,n][t]->(Sum[\[Nu][l,n][t],{l,1,m-1}]+Sum[\[Nu][l,n][t],{l,m+1,Sites}])},{n,1,8}]],{m,1,Sites}]];
+eqns\[Nu]=Flatten[Table[eqns\[Nu]1/.Flatten[Table[{\[Nu][1,n]'[t]->\[Nu][m,n]'[t],\[Nu][1,n][t]->\[Nu][m,n][t],\[Nu][2,n][t]->(Sum[\[Nu][l,n][t],{l,1,m-1}]+Sum[\[Nu][l,n][t],{l,m+1,Sites}])},{n,1,8}]],{m,1,Sites}]];
 
 
 (*MatrixForm[eqns\[Nu]]*)
@@ -142,22 +162,21 @@ randdoinit[n_]:={randrest[[1,n]],randrest[[2,n]],randmag[[n]] E^(I randphase[[n]
 
 randinits=Table[randupinit[n],{n,1,updownmiddle[[1]]}]~Join~Table[randdoinit[n],{n,updownmiddle[[1]]+1,updownmiddle[[1]]+updownmiddle[[2]]}]~Join~Table[randmiinit[n],{n,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}];
 
-
-spindyn=Table[0,{Nt},{2},{Sites},{8}];
+spindyn=Table[0,{Nt},{1},{2},{Sites},{8}];
+SetSharedVariable[spindyn];
 su3Runsdone=0;
+SetSharedVariable[su3Runsdone];
 Timing[
-Do[
-TWAres=ParallelTable[
-Product[metric[[n,mSIM j+ii]],{n,1,Sites}]{v\[Nu],v\[Nu]s}/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,mSIM j+ii]],\[Beta]->randinits[[m,2,mSIM j+ii]],\[Gamma]->randinits[[m,3,mSIM j+ii]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
-],
-{ii,mSIM}
+ParallelDo[
+TWAres=Product[metric[[n,j]],{n,1,Sites}]{v\[Nu],v\[Nu]s}/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]],\[Gamma]->randinits[[m,3,j]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
 ];
-spindyn=spindyn+Total[Table[TWAres[[All,1,All]],{t,ts}]\[Transpose]];
-su3Runsdone=su3Runsdone+1;
-,{j,0,(su3Runs/mSIM-1)}
+spindyn+=Table[TWAres,{t,ts}];
+su3Runsdone++;
+Print[ToString[su3Runsdone]]
+,{j,1,su3Runs}
 ]
 ]
-avgspins3=Norm1^Sites Re[spindyn]/su3Runs;
+avgspins3=Norm1^Sites Re[spindyn[[All,1]]]/su3Runs;
 avgspins3[[All,2]]=avgspins3[[All,2]]-1/8-avgspins3[[All,1]]^2;
 
 
