@@ -8,7 +8,7 @@ LaunchKernels[]
 Needs["SubKernels`RemoteKernels`"]
 
 
-LaunchKernels[RemoteMachine["node01",8]]
+LaunchKernels[RemoteMachine["server",7]]
 
 
 LaunchKernels[RemoteMachine["node02",8]]
