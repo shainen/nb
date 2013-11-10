@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Kernels*)
 
 
@@ -22,7 +22,7 @@ LaunchKernels[RemoteMachine["node03",8]]
 LaunchKernels[RemoteMachine["node04",8]]
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Constants*)
 
 
@@ -34,7 +34,7 @@ Get["constants.m"]
 
 
 vs=Table[Table[s[m,n][t],{n,1,3}],{m,1,Sites}];
-vss=Table[Table[s[m,n][t]s[m,n][t],{n,1,3}],{m,1,Sites}];
+vscor=Table[Table[s[m,n][t]s[l,n][t],{n,1,3}],{m,1,Sites},{l,1,Sites}];
 ds=Table[Table[s[m,n]'[t],{n,1,3}],{m,1,Sites}];
 initialss=Flatten[Table[Table[s[m,n][0]==Subscript[s, 0][m,n],{n,1,3}],{m,1,Sites}]];
 \[CapitalDelta]s[m_,ow_]:=Table[D[ow,s[m,n][t]],{n,1,3}];
@@ -57,7 +57,7 @@ eqnss=Flatten[Table[eqnss1/.Flatten[Table[{s[1,n]'[t]->s[m,n]'[t],s[1,n][t]->s[m
 MatrixForm[eqnss]
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Wigner with neg prob*)
 
 
@@ -111,22 +111,30 @@ ResNorm=Norm2^(updownmiddle[[1]]+updownmiddle[[2]]) Norm1^(2updownmiddle[[3]]);
 ProgressIndicator[Dynamic[su2Runsdone],{0,su2Runs}]
 
 
-spindyn=Table[0,{Nt},{1},{2},{Sites},{3}];
+spindyn=Table[0,{Nt},{1},{Sites},{3}];
+spincordyn=Table[0,{Nt},{1},{Sites},{Sites},{3}];
 SetSharedVariable[spindyn];
+SetSharedVariable[spincordyn];
 su2Runsdone=0;
 SetSharedVariable[su2Runsdone];
 Timing[
 ParallelDo[
-TWAres=
-Product[metric1[[n,m,j]],{n,1,2},{m,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}]Product[metric2[[m,j]],{m,1,updownmiddle[[1]]+updownmiddle[[2]]}]{vs,vss}/.NDSolve[(eqnss~Join~initialss)/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[s, 0][m,n]->(svarsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]]}),{m,1,Sites},{n,1,3}]],Flatten[vs],{t,0,tmax},MaxSteps->\[Infinity]
+sol=NDSolve[(eqnss~Join~initialss)/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[s, 0][m,n]->(svarsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]]}),{m,1,Sites},{n,1,3}]],Flatten[vs],{t,0,tmax},MaxSteps->\[Infinity]
 ];
-spindyn+=Table[TWAres,{t,ts}];
+metprod=Product[metric1[[n,m,j]],{n,1,2},{m,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}]Product[metric2[[m,j]],{m,1,updownmiddle[[1]]+updownmiddle[[2]]}];
+TWAresspin=metprod vs/.sol;
+TWArescor=metprod vscor/.sol;
+spindyn+=Table[TWAresspin,{t,ts}];
+spincordyn+=Table[TWArescor,{t,ts}];
 su2Runsdone++;
 ,{j,1,su2Runs}
 ]
 ]
 avgspins2=ResNorm Re[spindyn[[All,1]]]/su2Runs;
-avgspins2[[All,2]]=avgspins2[[All,2]]-1/8-avgspins2[[All,1]]^2;
+avgcor2=ResNorm Re[spincordyn[[All,1]]]/su2Runs;
 
 
-Save[su2outfile,avgspins2]
+Save["sp"<>su2outfile,avgspins2]
+
+
+Save["cor"<>su2outfile,avgcor2]
