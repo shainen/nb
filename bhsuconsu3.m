@@ -89,7 +89,7 @@ Get["constants.m"]
 
 
 v\[Nu]=Table[Table[\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
-v\[Nu]s=Table[Table[\[Nu][m,n][t]\[Nu][m,n][t],{n,1,8}],{m,1,Sites}];
+v\[Nu]cor=Table[Table[\[Nu][m,n][t]\[Nu][l,n][t],{n,1,8}],{m,1,Sites},{l,1,Sites}];
 d\[Nu]=Table[Table[\[Nu][m,n]'[t],{n,1,8}],{m,1,Sites}];
 initials\[Nu]=Flatten[Table[Table[\[Nu][m,n][0]==Subscript[\[Nu], 0][m,n],{n,1,8}],{m,1,Sites}]];
 \[CapitalDelta]\[Nu][m_,ow_]:=Table[D[ow,\[Nu][m,n][t]],{n,1,8}];
@@ -162,22 +162,30 @@ randdoinit[n_]:={randrest[[1,n]],randrest[[2,n]],randmag[[n]] E^(I randphase[[n]
 
 randinits=Table[randupinit[n],{n,1,updownmiddle[[1]]}]~Join~Table[randdoinit[n],{n,updownmiddle[[1]]+1,updownmiddle[[1]]+updownmiddle[[2]]}]~Join~Table[randmiinit[n],{n,updownmiddle[[1]]+updownmiddle[[2]]+1,updownmiddle[[1]]+updownmiddle[[2]]+updownmiddle[[3]]}];
 
-spindyn=Table[0,{Nt},{1},{2},{Sites},{8}];
+spindyn=Table[0,{Nt},{1},{Sites},{8}];
 SetSharedVariable[spindyn];
+spincordyn=Table[0,{Nt},{1},{Sites},{Sites},{8}];
+SetSharedVariable[spincordyn];
 su3Runsdone=0;
 SetSharedVariable[su3Runsdone];
 Timing[
 ParallelDo[
-TWAres=Product[metric[[n,j]],{n,1,Sites}]{v\[Nu],v\[Nu]s}/.NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]],\[Gamma]->randinits[[m,3,j]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
+sol=NDSolve[(eqns\[Nu]~Join~initials\[Nu])/.{U->Uvalue,\[Mu]->\[Mu]value,J->Jvalue,navg->navgvalue}~Join~Flatten[Table[Subscript[\[Nu], 0][m,n]->(\[Nu]varsingreek[[n]]/.{\[Alpha]->randinits[[m,1,j]],\[Beta]->randinits[[m,2,j]],\[Gamma]->randinits[[m,3,j]]}),{m,1,Sites},{n,1,8}]],Flatten[v\[Nu]],{t,0,tmax},MaxSteps->\[Infinity]
 ];
-spindyn+=Table[TWAres,{t,ts}];
+metprod=Product[metric[[n,j]],{n,1,Sites}];
+TWAresspin=metprod v\[Nu]/.sol;
+TWArescor=metprod v\[Nu]cor/.sol;
+spindyn+=Table[TWAresspin,{t,ts}];
+spincordyn+=Table[TWArescor,{t,ts}];
 su3Runsdone++;
 Print[ToString[su3Runsdone]]
 ,{j,1,su3Runs}
 ]
 ]
 avgspins3=Norm1^Sites Re[spindyn[[All,1]]]/su3Runs;
-avgspins3[[All,2]]=avgspins3[[All,2]]-1/8-avgspins3[[All,1]]^2;
+avgcor3=Norm1^Sites Re[spincordyn[[All,1]]]/su3Runs;
+
+Save[su3outfile<>"sp.lst",avgspins3]
 
 
-Save[su3outfile,avgspins3]
+Save[su3outfile<>"cor.lst",avgcor3]

@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
-Sites=3;
-updownmiddle={1,1,1};
+Sites=2;
+updownmiddle={1,1,0};
 
 tmax=200;
 Nt=128;
@@ -10,7 +10,7 @@ Length[ts=N@Range[0,tmax-dt,dt]];
 times=Table[t,{t,0,tmax-dt,dt}];
 
 su2Runs=100000;
-su3Runs=100000;
+su3Runs=100;
 
 Uvalue=1;
 \[Mu]value=1;
