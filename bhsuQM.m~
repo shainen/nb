@@ -1,6 +1,6 @@
 function bhsuQM
 
-tmax=2000;
+tmax=200;
 
 Nt = 128;
 dt = tmax/Nt;
@@ -31,7 +31,7 @@ time=cputime;
 
 HQM=sparse(3^S,3^S);
 for j=1:S
-    HQM=HQM+JzS{j}*JzS{j}-JzS{j};
+    HQM=HQM+JzS{j}*JzS{j}/2-JzS{j};
     for k=j+1:S
         HQM=HQM-J*(JxS{j}*JxS{k}+JyS{j}*JyS{k});
     end
@@ -53,9 +53,12 @@ init=zeros(3^S,1);
 init(3,1)=1;
 
 cn=Vn'*init;
-m1=Vn'*(JzS{1}*Vn);
+% m1=Vn'*(JzS{1}*Vn);
+% m2=Vn'*(JzS{2}*Vn);
+% m3=Vn'*(JzS{3}*Vn);
+m1=Vn'*(JxS{1}*Vn);
 m2=Vn'*(JzS{2}*Vn);
-%m3=Vn'*(JzS{3}*Vn);
+m3=Vn'*(JzS{3}*Vn);
 
 %m7=Vn'*(JzS{4}*Vn);
 %m8=Vn'*(JzS{5}*Vn);
@@ -63,7 +66,7 @@ m2=Vn'*(JzS{2}*Vn);
 
 m4=Vn'*(JzS{1}*(JzS{1}*Vn));
 m5=Vn'*(JzS{2}*(JzS{2}*Vn));
-%m6=Vn'*(JzS{3}*(JzS{3}*Vn));
+m6=Vn'*(JzS{3}*(JzS{3}*Vn));
 
 
 'plot'
@@ -72,13 +75,13 @@ for j=1:Nt
     vec=exp(-i*t(j)*En).*cn;
     AvgSz1(j)=vec'*(m1*vec);
     AvgSz2(j)=vec'*(m2*vec);
-%    AvgSz3(j)=vec'*(m3*vec);
+    AvgSz3(j)=vec'*(m3*vec);
 %    AvgSz4(j)=vec'*(m7*vec);
 %    AvgSz5(j)=vec'*(m8*vec);
 %    AvgSz6(j)=vec'*(m9*vec);
     SqSz1(j)=vec'*(m4*vec);
     SqSz2(j)=vec'*(m5*vec);
-%    SqSz3(j)=vec'*(m6*vec);
+    SqSz3(j)=vec'*(m6*vec);
 end
 cputime-time
 
@@ -86,10 +89,10 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 %widSz3=SqSz3-AvgSz3.*AvgSz3;
 
-%save('QMAvgSz2','AvgSz1','AvgSz2','AvgSz3','-ascii');
-%save('QMWidSz2','widSz1','widSz2','widSz3','-ascii');
-save('QMAvgSz2','AvgSz1','AvgSz2','-ascii');
-save('QMWidSz2','widSz1','widSz2','-ascii');
+%save('QMAvgSz3','AvgSz1','AvgSz2','AvgSz3','-ascii');
+%save('QMWidSz3','widSz1','widSz2','widSz3','-ascii');
+%save('QMAvgSz2','AvgSz1','AvgSz2','-ascii');
+%save('QMWidSz2','widSz1','widSz2','-ascii');
 
 
 
