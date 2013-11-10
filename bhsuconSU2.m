@@ -134,7 +134,7 @@ avgspins2=ResNorm Re[spindyn[[All,1]]]/su2Runs;
 avgcor2=ResNorm Re[spincordyn[[All,1]]]/su2Runs;
 
 
-Save["sp"<>su2outfile,avgspins2]
+Save[su2outfile<>"sp.lst",avgspins2]
 
 
-Save["cor"<>su2outfile,avgcor2]
+Save[su2outfile<>"cor.lst",avgcor2]
