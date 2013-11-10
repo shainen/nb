@@ -7,7 +7,7 @@ dt = tmax/Nt;
 
 t=[0:dt:tmax-dt];
 
-S = 8;
+S = 6;
 U = 1;
 mu = 1;
 J = 0.01;
@@ -48,7 +48,7 @@ cputime-time
 En=diag(Em);
 
 init=zeros(3^S,1);
-init(1823,1)=1;
+init(203,1)=1;
 
 cn=Vn'*init;
 m1=Vn'*(JzS{1}*Vn);
@@ -84,8 +84,8 @@ widSz1=SqSz1-AvgSz1.*AvgSz1;
 widSz2=SqSz2-AvgSz2.*AvgSz2;
 widSz3=SqSz3-AvgSz3.*AvgSz3;
 
-save('QMAvgSz8','AvgSz1','AvgSz2','AvgSz3','-ascii');
-save('QMWidSz8','widSz1','widSz2','widSz3','-ascii');
+save('QMAvgSz6','AvgSz1','AvgSz2','AvgSz3','-ascii');
+save('QMWidSz6','widSz1','widSz2','widSz3','-ascii');
 
 
 
