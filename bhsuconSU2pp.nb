@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[   1231918,      21419]
-NotebookOptionsPosition[   1229278,      21331]
-NotebookOutlinePosition[   1229634,      21347]
-CellTagsIndexPosition[   1229591,      21344]
+NotebookDataLength[   1231989,      21421]
+NotebookOptionsPosition[   1229348,      21333]
+NotebookOutlinePosition[   1229704,      21349]
+CellTagsIndexPosition[   1229661,      21346]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -11749,6 +11749,7 @@ wuHXgFKoYweGO43rmvsmT8D/ACMvDQc=
     Axes->True,
     AxesLabel->{None, None},
     AxesOrigin->{0., 0.},
+    ImageSize->{368.5, Automatic},
     Method->{},
     PlotRangeClipping->True], ",", 
    GraphicsBox[{{}, {
@@ -16457,6 +16458,7 @@ obnZDak1zVSXsnG411JvCyQHAWVmXtkXg5S/CM9Ro4PoX78PGCo=
     Axes->True,
     AxesLabel->{None, None},
     AxesOrigin->{0., 0.},
+    ImageSize->{222.5, Automatic},
     Method->{},
     PlotRangeClipping->True], ",", 
    GraphicsBox[{{}, {
@@ -21360,12 +21362,12 @@ Cell[5204, 152, 4024, 110, 240, "Input"],
 Cell[9231, 264, 5454, 160, 189, "Input"],
 Cell[CellGroupData[{
 Cell[14710, 428, 1256, 31, 28, "Input"],
-Cell[15969, 461, 3494, 105, 70, "Output"]
+Cell[15969, 461, 3494, 105, 65, "Output"]
 }, Open  ]],
 Cell[19478, 569, 2598, 57, 114, "Input"],
 Cell[CellGroupData[{
 Cell[22101, 630, 306, 5, 28, "Input"],
-Cell[22410, 637, 11288, 326, 70, "Output"]
+Cell[22410, 637, 11288, 326, 176, "Output"]
 }, Open  ]]
 }, Closed]],
 Cell[CellGroupData[{
@@ -21407,11 +21409,11 @@ Cell[375759, 6938, 1880, 45, 80, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[377676, 6988, 2814, 57, 82, "Input"],
-Cell[380493, 7047, 840390, 14126, 164, "Output"]
+Cell[380493, 7047, 840460, 14128, 409, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1220920, 21178, 1745, 33, 35, "Input"],
-Cell[1222668, 21213, 6582, 114, 236, "Output"]
+Cell[1220990, 21180, 1745, 33, 35, "Input"],
+Cell[1222738, 21215, 6582, 114, 236, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
