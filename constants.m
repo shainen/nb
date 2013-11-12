@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
-Sites=2;
-updownmiddle={1,1,0};
+Sites=3;
+updownmiddle={3,0,0};
 
 tmax=200;
 Nt=128;
