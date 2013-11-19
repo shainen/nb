@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     89770,       2363]
-NotebookOptionsPosition[     87106,       2272]
-NotebookOutlinePosition[     87463,       2288]
-CellTagsIndexPosition[     87420,       2285]
+NotebookDataLength[     89873,       2365]
+NotebookOptionsPosition[     87208,       2274]
+NotebookOutlinePosition[     87565,       2290]
+CellTagsIndexPosition[     87522,       2287]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2054,7 +2054,9 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"su3outfile", "<>", "\"\<corn.lst\>\""}], ",", "avgcor3"}], 
   "]"}]}], "Input",
- CellChangeTimes->{{3.593870253296674*^9, 3.5938702679911013`*^9}}],
+ CellChangeTimes->{{3.593870253296674*^9, 3.5938702679911013`*^9}, {
+  3.593870716202359*^9, 3.5938707164589777`*^9}, {3.593870769048237*^9, 
+  3.5938707707254972`*^9}}],
 
 Cell[CellGroupData[{
 
@@ -2351,18 +2353,18 @@ Cell[CellGroupData[{
 Cell[64060, 1798, 10942, 228, 488, "Input"],
 Cell[75005, 2028, 980, 16, 28, "Output"]
 }, Open  ]],
-Cell[76000, 2047, 348, 9, 46, "Input"],
+Cell[76000, 2047, 450, 11, 46, "Input"],
 Cell[CellGroupData[{
-Cell[76373, 2060, 136, 2, 28, "Input"],
-Cell[76512, 2064, 94, 2, 28, "Output"]
+Cell[76475, 2062, 136, 2, 28, "Input"],
+Cell[76614, 2066, 94, 2, 28, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[76643, 2071, 1856, 38, 48, "Input"],
-Cell[78502, 2111, 4228, 75, 233, "Output"]
+Cell[76745, 2073, 1856, 38, 48, "Input"],
+Cell[78604, 2113, 4228, 75, 233, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[82767, 2191, 1505, 25, 30, "Input"],
-Cell[84275, 2218, 2803, 50, 233, "Output"]
+Cell[82869, 2193, 1505, 25, 30, "Input"],
+Cell[84377, 2220, 2803, 50, 233, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
