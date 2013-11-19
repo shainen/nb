@@ -1,0 +1,224 @@
+%function bhsuQMclever
+
+clear
+
+tmax=20;
+
+Nt = 128;
+dt = tmax/Nt;
+
+t=[0:dt:tmax-dt];
+
+S = 4;
+U = 1;
+mu = 1;
+J1 = 0.1;
+J2 = 0.2;
+
+%syms x
+%D=3^(S/2)*symsum(nchoosek(S/2,x),x,0,S/2);
+
+diff=[-1 0;-1 1;0 1];
+
+for j=1:3^(S/2)
+    num=j-1;
+    for k=1:S/2
+        d=floor(num/3^(S/2-k));
+        num=num-d*3^(S/2-k);
+        V{1}(j,2*k-1)=d-1;
+        V{1}(j,2*k)=d-1;         
+    end
+end
+
+
+for j=1:3 %should be number of ways to change even sites
+    for k=1:S/2 % number of double sites to change
+        for l=1:3 %number of diff diff comps
+	index=6*(j-1)+3*(k-1);
+        V{2,1}(index+l,:)=V{1}(4*(j-1)+1,:);
+        V{2,2}(index+l,:)=V{1}(4*(j-1)+1,:);      
+        V{2,1}(index+l,2*k-1)=diff(l,1);
+        V{2,1}(index+l,2*k)=diff(l,2);
+        V{2,2}(index+l,2*k-1)=diff(l,2);
+        V{2,2}(index+l,2*k)=diff(l,1);    
+        end
+    end
+end
+
+
+        for l=1:3
+		for m=1:3
+			index=3*(l-1)+m;        
+        V{3,1}(index,1)=diff(l,1);
+        V{3,1}(index,2)=diff(l,2);
+        V{3,2}(index,1)=diff(l,1);
+        V{3,2}(index,2)=diff(l,2);    
+        V{3,3}(index,1)=diff(l,2);
+        V{3,3}(index,2)=diff(l,1);
+        V{3,4}(index,1)=diff(l,2);
+        V{3,4}(index,2)=diff(l,1);    
+        V{3,1}(index,3)=diff(m,1);
+        V{3,1}(index,4)=diff(m,2);
+        V{3,2}(index,3)=diff(m,2);
+        V{3,2}(index,4)=diff(m,1);    
+        V{3,3}(index,3)=diff(m,1);
+        V{3,3}(index,4)=diff(m,2);
+        V{3,4}(index,3)=diff(m,2);
+        V{3,4}(index,4)=diff(m,1);    
+
+end
+end
+
+Ham=sparse(36);
+for i=1:9
+	Ham(i,i)=sum(V{1}(i,:).^2)/2-sum(V{1}(i,:));
+end
+
+for i=1:18
+	Ham(9+i,9+i)=sum(V{2,1}(i,:).^2)/2-sum(V{2,1}(i,:));
+end
+
+for i=1:9
+	Ham(27+i,27+i)=sum(V{3,1}(i,:).^2)/2-sum(V{3,1}(i,:));
+end
+
+xyham=sparse(36);
+
+for i=1:9
+  for j=1:9
+l=1
+	  for k=1:4
+		  if V{1}(i,k)~=V{1}(j,k)
+		  bit(l)=[V{1}(i,k) V{1}(j,k)];
+				    l=l+1;
+end
+end
+if l==3
+  a=bit(1,1)-bit(1,2);
+  b=bit(2,1)-bit(2,2);
+  if a*b==1
+    xyham(i,j)=1/2*(J1-J2);
+  elseif a*b==-1
+    xyham(i,j)=1/2*(J1+J2);
+end
+end
+end
+end
+
+
+
+
+
+
+
+
+
+
+%for i=10:27
+%	for j=10:27
+%		Ham(i,j)=
+
+
+% JxS=cell(1,S);
+% JyS=cell(1,S);
+% JzS=cell(1,S);
+% for j=1:S,
+%     JxS{j}=sparse(kron(kron(eye(3^(j-1)),Jx),eye(3^(S-j))));
+%     JyS{j}=sparse(kron(kron(eye(3^(j-1)),Jy),eye(3^(S-j))));
+%     JzS{j}=sparse(kron(kron(eye(3^(j-1)),Jz),eye(3^(S-j))));
+% end
+% 
+% 'make ham'
+% time=cputime;
+% 
+% HQM=sparse(3^S,3^S);
+% for j=1:S
+%     HQM=HQM+JzS{j}*JzS{j}/2-JzS{j};
+%     for k=j+1:S
+%         HQM=HQM-J1*(JxS{j}*JxS{k})+J2*(JyS{j}*JyS{k});
+%     end
+% end
+% cputime-time
+% 
+% HQMf=full(HQM);
+% 
+% HQMf
+% 
+% 'diag'
+% time=cputime;
+% [Vn,Em]=eig(HQMf);
+% cputime-time
+% 
+% En=diag(Em);
+% 
+% init=zeros(3^S,1);
+% init(1,1)=1;
+% 
+% cn=Vn'*init;
+% m1=Vn'*(JzS{1}*Vn);
+% m2=Vn'*(JzS{2}*Vn);
+% m3=Vn'*(JzS{3}*Vn);
+% % m1=Vn'*(JxS{1}*Vn);
+% % m2=Vn'*(JxS{2}*Vn);
+% % m3=Vn'*(JxS{3}*Vn);
+% 
+% %m7=Vn'*(JzS{4}*Vn);
+% %m8=Vn'*(JzS{5}*Vn);
+% %m9=Vn'*(JzS{6}*Vn);
+% 
+% % m4=Vn'*(JzS{1}*(JzS{1}*Vn));
+% % m5=Vn'*(JzS{2}*(JzS{2}*Vn));
+% % m6=Vn'*(JzS{3}*(JzS{3}*Vn));
+% m4=Vn'*(JxS{1}*(JxS{1}*Vn));
+% m5=Vn'*(JxS{2}*(JxS{2}*Vn));
+% m6=Vn'*(JxS{3}*(JxS{3}*Vn));
+% 
+% 
+% 'plot'
+% time=cputime
+% for j=1:Nt
+%     vec=exp(-i*t(j)*En).*cn;
+%     AvgSz1(j)=vec'*(m1*vec);
+%     AvgSz2(j)=vec'*(m2*vec);
+%     AvgSz3(j)=vec'*(m3*vec);
+% %    AvgSz4(j)=vec'*(m7*vec);
+% %    AvgSz5(j)=vec'*(m8*vec);
+% %    AvgSz6(j)=vec'*(m9*vec);
+%     SqSz1(j)=vec'*(m4*vec);
+%     SqSz2(j)=vec'*(m5*vec);
+%     SqSz3(j)=vec'*(m6*vec);
+% end
+% cputime-time
+% 
+% widSz1=SqSz1-AvgSz1.*AvgSz1;
+% widSz2=SqSz2-AvgSz2.*AvgSz2;
+% widSz3=SqSz3-AvgSz3.*AvgSz3;
+% 
+% %save('QMAvgSz3','AvgSz1','AvgSz2','AvgSz3','-ascii');
+% %save('QMWidSz3','widSz1','widSz2','widSz3','-ascii');
+% %save('QMAvgSz2','AvgSz1','AvgSz2','-ascii');
+% %save('QMWidSz2','widSz1','widSz2','-ascii');
+% 
+% 
+% 
+% %plot the results
+%  figure
+%  hold on
+% 
+%  plot(t,AvgSz1,'b');
+%  plot(t,AvgSz2,'r');
+%  plot(t,AvgSz3,'y');
+% 
+%  % figure
+%  %hold on
+% 
+% % plot(t,AvgSz4,'b');
+% % plot(t,AvgSz5,'r');
+% % plot(t,AvgSz6,'y');
+% figure
+%  hold on
+% % %plot(t,X(:,1),'r');
+%  plot(t,widSz1,'b');
+%  plot(t,widSz2,'r');
+%  plot(t,widSz3,'y');
+% %legend('n for p=0');

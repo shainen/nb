@@ -1,6 +1,6 @@
 function bhsuQM
 
-tmax=200;
+tmax=20;
 
 Nt = 128;
 dt = tmax/Nt;
