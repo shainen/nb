@@ -3,20 +3,13 @@
 (* ::Section::Closed:: *)
 (*Kernels*)
 
+LaunchKernels[]
+
 
 Needs["SubKernels`RemoteKernels`"]
 
 
 LaunchKernels[RemoteMachine["server",7]]
-
-
-LaunchKernels[RemoteMachine["node01",8]]
-
-
-LaunchKernels[RemoteMachine["node02",8]]
-
-
-LaunchKernels[RemoteMachine["node03",8]]
 
 
 LaunchKernels[RemoteMachine["node04",8]]
